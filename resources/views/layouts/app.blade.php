@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>SeatMaster @yield('title')</title>
+    @livewireStyles
 </head>
 
 <body>
@@ -22,9 +23,13 @@
         @yield('content')
     </main>
 
-    <footer>
-        <!-- Stopka -->
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; SeatMaster.com 2023-2024</p>
+        </div>
     </footer>
+    @livewireScripts
 </body>
 
 </html>
