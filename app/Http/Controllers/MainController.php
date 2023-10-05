@@ -22,6 +22,6 @@ class MainController extends Controller
             // Dodaj więcej filmów...
         ];
 
-        return view('welcome', compact('movies'));
+        return view('main', compact('movies'));
     }
 }
