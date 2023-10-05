@@ -3,6 +3,7 @@
 @section('title', '- home')
 
 @section('content')
+    @extends('layouts.navbar')
     <!-- Header-->
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -45,7 +46,9 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">See more</a>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto" href="#" data-toggle="modal"
+                                        data-target="#movieModal_{{ $loop->index }}">See more</a>
                                 </div>
                             </div>
                         </div>
@@ -53,5 +56,30 @@
                 @endforeach
             </div>
         </div>
+        <!-- Modale dla każdego filmu -->
+        @foreach ($movies as $index => $movie)
+            <div class="modal fade" id="movieModal_{{ $index }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="profileModalLabel">{{ $movie['title'] }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ $movie['poster_url'] }}" alt="Twoje zdjęcie profilowe" class="img-fluid">
+                            <h1 id="profile-name">{{ $movie['title'] }}</h1>
+                            <p id="profile-status">{{ $movie['description'] }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" href="#">Zobacz dostępne miejsca</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </section>
 @endsection
