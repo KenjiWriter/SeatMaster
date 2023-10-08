@@ -42,7 +42,7 @@
             @foreach ($movies as $index => $movie)
                 <div class="col mb-5">
                     <div class="card h-100">
-                        @if ($movie['seats_available'] >= 10)
+                        @if ($movie['seats_available'] <= 10)
                             <!-- LASTS SEATS badge-->
                             <div class="badge bg-danger text-white position-absolute"
                                 style="top: 0.5rem; right: 0.5rem">
