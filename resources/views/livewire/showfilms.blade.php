@@ -1,12 +1,11 @@
-<div>
+<div wire:key="{{ $date }}">
     <div class="container px-4 px-lg-5 mt-5">
         <!-- Filtr Formularza -->
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group mr-3">
                     <label for="day">Day</label>
-                    <select wire:model="date" class="form-control" name="day" id="day">
-                        <option value="">--</option>
+                    <select wire:change="updateMovies" wire:model="date" class="form-control" name="day" id="day">
                         @foreach ($moviesDates as $date)
                             <option value="{{ $date['value'] }}">{{ $date['label'] }}</option>
                         @endforeach
@@ -14,25 +13,27 @@
                 </div>
                 <div class="form-group mr-3">
                     <label for="hour">Hour</label>
-                    <select wire:model="hour" class="form-control" name="hour" id="hour">
+                    <select wire:change="updateMovies" wire:model="hour" class="form-control" name="hour"
+                        id="hour">
                         <option value="">--</option>
                         @foreach ($moviesHours as $hour)
-                            <option value="{{ $hour['value'] }}">{{ $hour['label'] }}</option>
+                            <option value="{{ $hour['label'] }}">{{ $hour['label'] }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group mr-3">
                     <label for="movie_type">Type</label>
-                    <select wire:model="type" class="form-control" name="movie_type" id="movie_type">
+                    <select wire:change="updateMovies" wire:model="type" class="form-control" name="movie_type"
+                        id="movie_type">
                         <option value="">--</option>
-                        <option value="1">Action</option>
-                        <option value="2">Comedy</option>
-                        <option value="3">Drama</option>
-                        <option value="4">Romance</option>
-                        <option value="5">Horror</option>
-                        <option value="6">Science Fiction</option>
-                        <option value="7">Fantasy</option>
-                        <option value="8">Adventure</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Adventure">Adventure</option>
                     </select>
                 </div>
             </div>
@@ -53,6 +54,9 @@
                             <div class="text-center">
                                 <!-- Product name-->
                                 <h5 class="fw-bolder">{{ $movie['title'] }}</h5>
+                                <div style="background-color: orange" class="badge badge-light text-white">
+                                    {{ Carbon\Carbon::parse($movie['show_time'])->format('H:i') }}
+                                </div>
                                 <!-- Product reviews-->
                                 <div class="d-flex justify-content-center small text-warning mb-2">
                                     <div class="bi-star-fill"></div>
@@ -63,6 +67,9 @@
                                 </div>
                                 <!-- short description-->
                                 {{ $movie['description'] }}
+                                <div style="background-color: green" class=" text-white ">
+                                    {{ $movie['type'] }}
+                                </div>
                             </div>
                         </div>
                         <!-- Product actions-->
@@ -79,22 +86,27 @@
         <!-- Modale dla każdego filmu -->
         @foreach ($movies as $index => $movie)
             <div class="modal fade" id="movieModal_{{ $index }}" tabindex="-1" role="dialog"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                aria-labelledby="movieModal" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="profileModalLabel">{{ $movie['title'] }}</h5>
+                            <h5 class="modal-title" id="movie-title">{{ $movie['title'] }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <img src="{{ $movie['poster_url'] }}" alt="Twoje zdjęcie profilowe" class="img-fluid">
-                            <h1 id="profile-name">{{ $movie['title'] }}</h1>
-                            <p id="profile-status">{{ $movie['description'] }}</p>
+                        <div class="modal-body" align="center">
+                            <img src="{{ $movie['poster_url'] }}" alt="Poster" class="img-fluid">
+                            <h1 id="movie-title">{{ $movie['title'] }}</h1>
+                            <p id="movie-description">{{ $movie['description'] }}</p>
+                            <p id="movie-show-time">{{ Carbon\Carbon::parse($movie['show_time'])->format('H:i') }}</p>
+                            <p id="movie-seat">seats available <br> {{ $movie['seats_available'] }} /
+                                {{ $movie['total_seats'] }}</p>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-primary" href="#">Zobacz dostępne miejsca</a>
+                            @if ($movie['seats_available'] > 0)
+                                <a class="btn btn-primary" href="#">Zobacz dostępne miejsca</a>
+                            @endif
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                         </div>
                     </div>
